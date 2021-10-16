@@ -6,7 +6,7 @@ import { HostedBy } from 'src/types/host';
 import { updateHost } from 'src/handlers/updateHost';
 import { dynamodb, TableName } from 'src/lib/dbClient';
 
-describe('can create tour', () => {
+describe('can create host', () => {
   const id = uuid();
   const hostData: Partial<HostedBy> = {
     id,

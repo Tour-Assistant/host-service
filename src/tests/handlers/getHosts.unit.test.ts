@@ -5,7 +5,7 @@ import { getHosts } from 'src/handlers/getHosts';
 import { dynamodb, TableName } from 'src/lib/dbClient';
 import { MiddyRequest } from 'src/types/middy';
 
-describe('should able to get list of tours', () => {
+describe('should able to get list of hosts', () => {
   const hostData: Partial<HostedBy>[] = [
     {
       id: uuid(),

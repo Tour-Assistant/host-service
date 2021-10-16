@@ -4,7 +4,7 @@ import { HostedBy } from 'src/types/host';
 import { getHostById } from 'src/handlers/getHost';
 import { dynamodb, TableName } from 'src/lib/dbClient';
 
-describe('should able to get list of tours', () => {
+describe('should able to get list of hosts', () => {
   const id = uuid();
   const hostData: Partial<HostedBy> = {
     id,

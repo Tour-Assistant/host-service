@@ -5,7 +5,7 @@ import { deleteHost } from 'src/handlers/deleteHost';
 import { dynamodb, TableName } from 'src/lib/dbClient';
 import { MiddyRequest } from 'src/types/middy';
 
-describe('should delete tour', () => {
+describe('should delete host', () => {
   const id = uuid();
   const hostData: Partial<HostedBy> = {
     id,
