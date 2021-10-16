@@ -1,0 +1,13 @@
+HostServiceTableIAM:
+  Effect: Allow
+  Action:
+    - dynamodb:PutItem
+    - dynamodb:Scan
+    - dynamodb:GetItem
+    - dynamodb:UpdateItem
+    - dynamodb:DeleteItem
+    - dynamodb:Query
+    - dynamodb:BatchWriteItem
+  Resource:
+    - ${self:custom.HostServiceTable.arn}
+    - !Join ['/', ['${self:custom.HostServiceTable.arn}', 'index']]

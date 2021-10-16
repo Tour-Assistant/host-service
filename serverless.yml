@@ -13,24 +13,72 @@ plugins:
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: dev
+  stage: ${opt:stage, 'dev'}
   region: ${self:custom.Region}
+  environment:
+    HOST_SERVICE_TABLE_NAME: ${self:custom.HostServiceTable.name}
+    REGION: ${self:custom.Region}
+  iamRoleStatements:
+    - ${file(iam/HostServiceTableIAM.yml):HostServiceTableIAM}
 
 functions:
-  hello:
-    handler: handler.hello
+  createHost:
+    handler: src/handlers/createHost.handler
     events:
       - http:
-          path: hello
-          method: get
-          # authorizer: ${self:custom.authorizer}
+          method: POST
+          path: /host
+          cors: true
+          authorizer: ${self:custom.authorizer}
+  getHosts:
+    handler: src/handlers/getHosts.handler
+    events:
+      - http:
+          method: GET
+          path: /hosts
+          cors: true
+          authorizer: ${self:custom.authorizer}
+  getHost:
+    handler: src/handlers/getHost.handler
+    events:
+      - http:
+          method: GET
+          path: /host/{id}
+          cors: true
+          authorizer: ${self:custom.authorizer}
+  updateHost:
+    handler: src/handlers/updateHost.handler
+    events:
+      - http:
+          method: PATCH
+          path: /host/{id}
+          cors: true
+          authorizer: ${self:custom.authorizer}
+  deleteHost:
+    handler: src/handlers/deleteHost.handler
+    events:
+      - http:
+          method: DELETE
+          path: /host/{id}
+          cors: true
+          authorizer: ${self:custom.authorizer}
+
+resources:
+  Resources:
+    HostServiceTable: ${file(resources/HostServiceTable.yml):HostServiceTable}
 
 custom:
   authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:tour-assistant-auth-service-${self:provider.stage}-auth
   Region: ap-south-1
+  HostServiceTable:
+    name: !Ref HostServiceTable
+    arn: !GetAtt HostServiceTable.Arn
+  domain:
+    dev: host-api-dev.my-tour-assistant.com
+    prod: host-api.my-tour-assistant.com
   customDomain:
-    domainName: host-api.my-tour-assistant.com
-    basePath: "v1"
+    domainName: ${self:custom.domain.${opt:stage, 'dev'}}
+    basePath: 'v1'
     stage: ${self:provider.stage}
     certificateName: my-tour-assistant.com
     createRoute53Record: true
