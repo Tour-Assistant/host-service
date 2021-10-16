@@ -3,7 +3,6 @@ import { v4 as uuid } from 'uuid';
 import { HostedBy } from 'src/types/host';
 import { getHosts } from 'src/handlers/getHosts';
 import { dynamodb, TableName } from 'src/lib/dbClient';
-import { MiddyRequest } from 'src/types/middy';
 
 describe('should able to get list of hosts', () => {
   const hostData: Partial<HostedBy>[] = [
@@ -56,8 +55,7 @@ describe('should able to get list of hosts', () => {
   });
 
   it('should return host list', async () => {
-    const event: MiddyRequest = {};
-    const res = await getHosts(event);
+    const res = await getHosts();
     const hostList = JSON.parse(res.body) as HostedBy[];
     expect(hostList.length).toEqual(2);
     expect(hostList).toEqual(

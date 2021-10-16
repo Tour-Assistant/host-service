@@ -3,11 +3,8 @@ import createError from 'http-errors';
 
 import { dynamodb, TableName } from 'src/lib/dbClient';
 import commonMiddleware from 'src/lib/commonMiddleware';
-import { MiddyRequest } from 'src/types/middy';
 
-export async function getHosts(
-  event: MiddyRequest
-): Promise<APIGatewayProxyResult> {
+export async function getHosts(): Promise<APIGatewayProxyResult> {
   const params = {
     TableName
   };

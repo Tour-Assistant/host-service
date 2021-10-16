@@ -7,8 +7,10 @@
     "api:deploy:dev": "sls deploy -v",
     "api:deploy:dev:debug": "SLS_DEBUG=* sls deploy -v",
     "api:deploy:prod": "sls deploy --stage prod -v",
+    "api:deploy:test": "sls deploy --stage test -v",
     "api:deploy:prod:debug": "SLS_DEBUG=* sls deploy --stage prod -v",
     "stack:remove:i_Know_what_i_am_doing": "sls remove -v",
+    "offline": "sls offline --noAuth --stage test",
     "test": "jest --watch"
   },
   "author": "",
@@ -21,6 +23,7 @@
     "@aws-sdk/client-dynamodb": "^3.34.0",
     "jest": "^27.2.4",
     "jest-dynalite": "^3.4.4",
+    "serverless-export-env": "arabold/serverless-export-env",
     "ts-jest": "^27.0.5"
   },
   "dependencies": {

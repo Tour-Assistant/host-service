@@ -14,19 +14,19 @@ export const hostSchema = {
           type: 'string'
         }
       },
-      required: ['page', 'link']
-    }
-  },
-  authorities: {
-    type: 'array',
-    items: {
-      type: 'object',
-      properties: {
-        name: {
-          type: 'string'
-        },
-        phone: {
-          type: 'string'
+      required: ['page', 'group']
+    },
+    authorities: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string'
+          },
+          phone: {
+            type: 'string'
+          }
         },
         required: ['name', 'phone']
       }

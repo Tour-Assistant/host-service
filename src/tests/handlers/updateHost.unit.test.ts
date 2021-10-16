@@ -1,5 +1,4 @@
 import { v4 as uuid } from 'uuid';
-import moment from 'moment';
 
 import { MiddyRequest } from 'src/types/middy';
 import { HostedBy } from 'src/types/host';

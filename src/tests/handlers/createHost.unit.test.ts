@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 import { MiddyRequest } from 'src/types/middy';
 import { HostedBy } from 'src/types/host';
 import { createHost } from 'src/handlers/createHost';
