@@ -1,28 +1,21 @@
-import { APIGatewayProxyResult } from "aws-lambda";
-import createError from "http-errors";
+import { APIGatewayProxyResult } from 'aws-lambda';
+import createError from 'http-errors';
 
-import { dynamodb, TableName } from "src/lib/dbClient";
-import commonMiddleware from "src/lib/commonMiddleware";
-import { MiddyRequest } from "src/types/middy";
+import { dynamodb, TableName } from 'src/lib/dbClient';
+import commonMiddleware from 'src/lib/commonMiddleware';
+import { MiddyRequest } from 'src/types/middy';
 
-export async function getTours(
+export async function getHosts(
   event: MiddyRequest
 ): Promise<APIGatewayProxyResult> {
-  const { eventStatus = "UPCOMING" } = event?.queryStringParameters || {};
-
   const params = {
-    TableName,
-    KeyConditionExpression: "eventStatus = :eventStatus",
-    IndexName: "eventStatus_startAt_index",
-    ExpressionAttributeValues: {
-      ":eventStatus": eventStatus,
-    },
+    TableName
   };
   try {
-    const { Items } = await dynamodb.query(params).promise();
+    const { Items } = await dynamodb.scan(params).promise();
     return {
       statusCode: 201,
-      body: JSON.stringify(Items),
+      body: JSON.stringify(Items)
     };
   } catch (error) {
     console.error(error);
@@ -30,4 +23,4 @@ export async function getTours(
   }
 }
 
-export const handler = commonMiddleware(getTours);
+export const handler = commonMiddleware(getHosts);

@@ -4,6 +4,7 @@ export interface HostAuthority {
 }
 
 export interface HostedBy {
+  id: string;
   name: string;
   link: {
     page: string;
