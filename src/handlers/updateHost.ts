@@ -1,44 +1,37 @@
-import { APIGatewayProxyResult } from "aws-lambda";
-import validator from "@middy/validator";
-import createError from "http-errors";
+import { APIGatewayProxyResult } from 'aws-lambda';
+import validator from '@middy/validator';
+import createError from 'http-errors';
 
-import commonMiddleware from "src/lib/commonMiddleware";
-import { createTourSchema } from "src/lib/schemas/createTourSchema";
-import { MiddyRequest } from "src/types/middy";
-import { formatTourData } from "src/lib/formatTourData";
-import { dynamodb, TableName } from "src/lib/dbClient";
+import commonMiddleware from 'src/lib/commonMiddleware';
+import { createHostSchema } from 'src/lib/schemas/createHostSchema';
+import { MiddyRequest } from 'src/types/middy';
+import { dynamodb, TableName } from 'src/lib/dbClient';
 
-export async function updateTour(
+export async function updateHost(
   event: MiddyRequest
 ): Promise<APIGatewayProxyResult> {
   const { id } = event.pathParameters;
-  const { title, startAt, reference, metaData } = event.body;
-
-  const tour = formatTourData({ title, startAt, reference, metaData });
+  const { name, link, authorities } = event.body;
 
   try {
     const params = {
       TableName,
       Key: { id },
       ExpressionAttributeNames: {
-        "#r": "reference",
+        '#n': 'name'
       },
-      UpdateExpression:
-        "SET title = :title, startAt = :startAt, #r = :r, metaData = :metaData, eventStatus = :eventStatus",
+      UpdateExpression: 'SET #n = :n, link = :link, authorities = :authorities',
       ExpressionAttributeValues: {
-        ":title": title,
-        ":startAt": startAt,
-        ":r": reference,
-        ":eventStatus":
-          new Date().toISOString() < startAt ? "UPCOMING" : "CLOSED",
-        ":metaData": metaData,
+        ':n': name,
+        ':link': link,
+        ':authorities': authorities
       },
-      ReturnValues: "ALL_NEW",
+      ReturnValues: 'ALL_NEW'
     };
     await dynamodb.update(params).promise();
     return {
       statusCode: 201,
-      body: JSON.stringify({ tour }),
+      body: JSON.stringify({ id, name, link, authorities })
     };
   } catch (error) {
     console.error(error);
@@ -46,12 +39,12 @@ export async function updateTour(
   }
 }
 
-export const handler = commonMiddleware(updateTour).use(
+export const handler = commonMiddleware(updateHost).use(
   validator({
-    inputSchema: createTourSchema,
+    inputSchema: createHostSchema,
     ajvOptions: {
       useDefaults: true,
-      strict: false,
-    },
+      strict: false
+    }
   })
 );

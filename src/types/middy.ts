@@ -1,10 +1,7 @@
-import { EVENT_STATUS, Tour } from './host';
+import { HostedBy } from './host';
 
 export interface MiddyRequest {
-  body?: Partial<Tour>;
-  queryStringParameters?: {
-    eventStatus: EVENT_STATUS;
-  };
+  body?: Partial<HostedBy>;
   pathParameters?: {
     id: string;
   };

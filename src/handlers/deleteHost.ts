@@ -1,23 +1,23 @@
-import { APIGatewayProxyResult } from "aws-lambda";
-import createError from "http-errors";
+import { APIGatewayProxyResult } from 'aws-lambda';
+import createError from 'http-errors';
 
-import commonMiddleware from "src/lib/commonMiddleware";
-import { MiddyRequest } from "src/types/middy";
-import { TableName, dynamodb } from "src/lib/dbClient";
+import commonMiddleware from 'src/lib/commonMiddleware';
+import { MiddyRequest } from 'src/types/middy';
+import { TableName, dynamodb } from 'src/lib/dbClient';
 
-export async function deleteTour(
+export async function deleteHost(
   event: MiddyRequest
 ): Promise<APIGatewayProxyResult> {
   const { id } = event.pathParameters;
   const params = {
     TableName,
-    Key: { id },
+    Key: { id }
   };
   try {
     await dynamodb.delete(params).promise();
     return {
       statusCode: 201,
-      body: JSON.stringify(id),
+      body: JSON.stringify(id)
     };
   } catch (error) {
     console.error(error);
@@ -25,4 +25,4 @@ export async function deleteTour(
   }
 }
 
-export const handler = commonMiddleware(deleteTour);
+export const handler = commonMiddleware(deleteHost);
