@@ -38,6 +38,7 @@
     "@types/jest": "^27.0.2",
     "@types/uuid": "^8.3.1",
     "http-errors": "^1.8.0",
+    "lodash": "^4.17.21",
     "serverless-bundle": "3.2.1",
     "serverless-domain-manager": "^5.1.5",
     "serverless-dotenv-plugin": "^3.0.0",

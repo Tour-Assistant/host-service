@@ -1,5 +1,6 @@
 import { APIGatewayProxyResult } from 'aws-lambda';
 import createError from 'http-errors';
+import _ from 'lodash';
 
 import commonMiddleware from 'src/lib/commonMiddleware';
 import { MiddyRequest } from 'src/types/middy';
@@ -28,7 +29,7 @@ export const getHostById = async (id: string): Promise<HostedBy> => {
 };
 
 async function getHost(event: MiddyRequest): Promise<APIGatewayProxyResult> {
-  const { id } = event.pathParameters;
+  const id = _.get(event, 'pathParameters.id', null);
   const host = await getHostById(id);
   return {
     statusCode: 201,
