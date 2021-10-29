@@ -9,6 +9,8 @@
     "api:deploy:prod": "sls deploy --stage prod -v",
     "api:deploy:test": "sls deploy --stage test -v",
     "api:deploy:prod:debug": "SLS_DEBUG=* sls deploy --stage prod -v",
+    "trail:log": "sls logs -f methodName --stage prod -t",
+    "deploy:method": "sls deploy -f methodName --stage prod -v",
     "stack:remove:i_Know_what_i_am_doing": "sls remove -v",
     "offline": "sls offline --noAuth --stage test",
     "test": "jest --watch"
