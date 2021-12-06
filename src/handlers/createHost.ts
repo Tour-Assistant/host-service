@@ -13,7 +13,8 @@ export async function createHost(
 ): Promise<APIGatewayProxyResult> {
   const newHost = {
     id: uuid(),
-    ...event.body
+    ...event.body,
+    createdAt: new Date().toISOString()
   };
   try {
     const params = {

@@ -11,6 +11,8 @@ export interface HostedBy {
     group: string;
   };
   authorities: HostAuthority[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface CreateHostPostRequest {

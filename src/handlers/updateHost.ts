@@ -20,11 +20,13 @@ export async function updateHost(
       ExpressionAttributeNames: {
         '#n': 'name'
       },
-      UpdateExpression: 'SET #n = :n, link = :link, authorities = :authorities',
+      UpdateExpression:
+        'SET #n = :n, link = :link, authorities = :authorities, updatedAt = :updatedAt',
       ExpressionAttributeValues: {
         ':n': name,
         ':link': link,
-        ':authorities': authorities
+        ':authorities': authorities,
+        ':updatedAt': new Date().toISOString()
       },
       ReturnValues: 'ALL_NEW'
     };
