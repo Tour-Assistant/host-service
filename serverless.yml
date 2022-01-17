@@ -38,7 +38,7 @@ functions:
           method: GET
           path: /hosts
           cors: true
-          authorizer: ${self:custom.authorizer}
+          # authorizer: ${self:custom.authorizer}
   getHost:
     handler: src/handlers/getHost.handler
     events:
