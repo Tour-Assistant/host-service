@@ -11,29 +11,47 @@ export async function updateHost(
   event: MiddyRequest
 ): Promise<APIGatewayProxyResult> {
   const { id } = event.pathParameters;
-  const { name, link, authorities } = event.body;
+  const {
+    name,
+    link,
+    authorities,
+    curatedName = name,
+    isFavorite = false,
+    isRunning = false,
+  } = event.body;
 
   try {
     const params = {
       TableName,
       Key: { id },
       ExpressionAttributeNames: {
-        '#n': 'name'
+        '#n': 'name',
       },
       UpdateExpression:
-        'SET #n = :n, link = :link, authorities = :authorities, updatedAt = :updatedAt',
+        'SET #n = :n, curatedName = :curatedName, isFavorite = :isFavorite, isRunning = :isRunning, link = :link, authorities = :authorities, updatedAt = :updatedAt',
       ExpressionAttributeValues: {
         ':n': name,
+        ':curatedName': curatedName,
+        ':isFavorite': isFavorite,
+        ':isRunning': isRunning,
         ':link': link,
         ':authorities': authorities,
-        ':updatedAt': new Date().toISOString()
+        ':updatedAt': new Date().toISOString(),
       },
-      ReturnValues: 'ALL_NEW'
+      ReturnValues: 'ALL_NEW',
     };
     await dynamodb.update(params).promise();
     return {
       statusCode: 201,
-      body: JSON.stringify({ id, name, link, authorities })
+      body: JSON.stringify({
+        id,
+        name,
+        link,
+        authorities,
+        curatedName,
+        isRunning,
+        isFavorite,
+      }),
     };
   } catch (error) {
     console.error(error);
@@ -46,7 +64,7 @@ export const handler = commonMiddleware(updateHost).use(
     inputSchema: createHostSchema,
     ajvOptions: {
       useDefaults: true,
-      strict: false
-    }
+      strict: false,
+    },
   })
 );

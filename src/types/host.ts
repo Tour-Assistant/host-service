@@ -6,6 +6,9 @@ export interface HostAuthority {
 export interface HostedBy {
   id: string;
   name: string;
+  curatedName: string;
+  isFavorite?: boolean;
+  isRunning?: boolean;
   link: {
     page: string;
     group: string;
